@@ -1,0 +1,31 @@
+node_modules/
+dist/
+.slidev/
+.cache/
+.DS_Store
+
+# Local agent/tooling artifacts
+.codex/
+.agents/
+.tmp_*
+dev.out.log
+dev.err.log
+slide-*.png
+path-*.png
+slide-hash.png
+game-tree.png
+mermaid-check.png
+skills-lock.json
+
+# Local reference docs
+docs/mermaid/**
+docs/slidev/**
+
+# Keep Codex indexes tracked
+!docs/mermaid/**/
+!docs/slidev/**/
+!docs/mermaid/**/codex-index.md
+!docs/slidev/**/codex-index.md
+
+# Local investigation artifacts
+dom.html

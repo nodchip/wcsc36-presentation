@@ -1,0 +1,504 @@
+:root {
+  --bg: #f6f9ff;
+  --bg-2: #eef4ff;
+  --bg-3: #ffffff;
+  --panel: rgba(255, 255, 255, 0.66);
+  --panel-strong: rgba(255, 255, 255, 0.82);
+  --panel-border: rgba(87, 118, 176, 0.16);
+  --panel-highlight: rgba(255, 255, 255, 0.72);
+  --text: #162033;
+  --muted: rgba(22, 32, 51, 0.62);
+  --accent: #1a73e8;
+  --accent-2: #4b8dff;
+  --accent-3: #8b6dff;
+  --accent-4: #51d7ff;
+  --shadow: rgba(35, 54, 104, 0.14);
+  --shadow-strong: rgba(35, 54, 104, 0.2);
+  --photo-bg: rgba(255, 255, 255, 0.48);
+  --photo-border: rgba(110, 143, 205, 0.18);
+}
+
+html.dark {
+  --bg: #0c1222;
+  --bg-2: #11192d;
+  --bg-3: #151f36;
+  --panel: rgba(14, 22, 40, 0.62);
+  --panel-strong: rgba(17, 27, 50, 0.8);
+  --panel-border: rgba(166, 195, 255, 0.14);
+  --panel-highlight: rgba(255, 255, 255, 0.08);
+  --text: #eff4ff;
+  --muted: rgba(239, 244, 255, 0.7);
+  --accent: #8ab4ff;
+  --accent-2: #7adfff;
+  --accent-3: #b497ff;
+  --accent-4: #8ff2dc;
+  --shadow: rgba(0, 0, 0, 0.26);
+  --shadow-strong: rgba(0, 0, 0, 0.4);
+  --photo-bg: rgba(255, 255, 255, 0.06);
+  --photo-border: rgba(171, 197, 255, 0.14);
+}
+
+html,
+body,
+.slidev-page {
+  background:
+    radial-gradient(980px 740px at 10% -8%, color-mix(in oklab, var(--accent) 24%, transparent), transparent 60%),
+    radial-gradient(880px 640px at 92% 12%, color-mix(in oklab, var(--accent-4) 22%, transparent), transparent 58%),
+    radial-gradient(760px 660px at 76% 84%, color-mix(in oklab, var(--accent-3) 18%, transparent), transparent 62%),
+    linear-gradient(180deg, var(--bg-2), var(--bg));
+  color: var(--text);
+}
+
+.slidev-layout {
+  font-family: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: 0.008em;
+  font-size: 28px;
+  line-height: 1.5;
+  line-break: strict;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  font-weight: 420;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+
+code,
+pre,
+.slidev-code {
+  font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+.slidev-layout h1 {
+  font-size: 68px;
+  line-height: 1.04;
+}
+
+.slidev-layout h2 {
+  font-size: 42px;
+  line-height: 1.12;
+}
+
+.slidev-layout h3 {
+  font-size: 30px;
+  line-height: 1.2;
+}
+
+.cover {
+  position: relative;
+  display: grid;
+  gap: 18px;
+  overflow: hidden;
+  padding: 48px 52px;
+  border-radius: 32px;
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 92%, transparent), color-mix(in oklab, var(--panel) 92%, transparent)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.02));
+  border: 1px solid color-mix(in oklab, var(--panel-border) 78%, var(--panel-highlight));
+  box-shadow:
+    0 28px 80px var(--shadow),
+    inset 0 1px 0 var(--panel-highlight);
+  backdrop-filter: blur(22px) saturate(140%);
+}
+
+.cover::before {
+  content: "";
+  position: absolute;
+  inset: auto -60px -120px auto;
+  width: 360px;
+  height: 360px;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.2) 18%, transparent 42%),
+    conic-gradient(from 210deg, color-mix(in oklab, var(--accent) 80%, white), color-mix(in oklab, var(--accent-4) 88%, white), color-mix(in oklab, var(--accent-3) 80%, white), color-mix(in oklab, var(--accent) 80%, white));
+  filter: blur(18px);
+  opacity: 0.88;
+  pointer-events: none;
+}
+
+.cover::after {
+  content: "";
+  position: absolute;
+  inset: -80px auto auto -120px;
+  width: 320px;
+  height: 240px;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in oklab, var(--accent-2) 14%, transparent), transparent 70%);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
+.cover > * {
+  position: relative;
+  z-index: 1;
+}
+
+.cover h1 {
+  max-width: 11ch;
+  margin: 0;
+  font-size: 72px;
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+.eyebrow {
+  width: fit-content;
+  margin-inline: auto;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in oklab, var(--panel-border) 70%, white);
+  background: color-mix(in oklab, var(--panel-strong) 78%, transparent);
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 550;
+  letter-spacing: 0.02em;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.subtitle {
+  max-width: 34ch;
+  font-size: 24px;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.cover h1,
+.cover .subtitle {
+  width: 100%;
+  max-width: none;
+  text-align: center;
+  justify-self: stretch;
+}
+
+.meta {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 16px;
+  text-align: center;
+  border-top: 1px solid color-mix(in oklab, var(--panel-border) 84%, transparent);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in oklab, var(--accent) 36%, transparent);
+  text-underline-offset: 0.15em;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.slidev-layout.section {
+  display: grid;
+  place-content: center;
+}
+
+.slidev-layout.section h1 {
+  position: relative;
+  margin: 0;
+  padding: 26px 32px;
+  border-radius: 28px;
+  border: 1px solid color-mix(in oklab, var(--panel-border) 78%, var(--panel-highlight));
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 90%, transparent), color-mix(in oklab, var(--panel) 90%, transparent)),
+    linear-gradient(135deg, color-mix(in oklab, var(--accent) 10%, transparent), color-mix(in oklab, var(--accent-4) 10%, transparent));
+  box-shadow:
+    0 22px 60px var(--shadow),
+    inset 0 1px 0 var(--panel-highlight);
+  backdrop-filter: blur(18px) saturate(135%);
+}
+
+.slidev-layout.section h1::before {
+  content: "";
+  position: absolute;
+  inset: 12px auto 12px 12px;
+  width: 6px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-4), var(--accent-3));
+}
+
+.intro-photo {
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 22px;
+  border: 1px solid var(--photo-border);
+  background: var(--photo-bg);
+  box-shadow: 0 18px 44px var(--shadow);
+}
+
+.intro-photo--bio {
+  width: auto;
+  height: auto;
+  max-width: 320px;
+  max-height: 280px;
+  margin: 0 auto;
+  display: block;
+  object-fit: initial;
+  background: transparent;
+}
+
+.slidev-layout table,
+.slidev-page table {
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--panel-strong) 72%, transparent);
+}
+
+.slidev-layout th,
+.slidev-page th {
+  background: color-mix(in oklab, var(--accent) 8%, var(--panel-strong));
+  font-weight: 650;
+}
+
+.slidev-layout th,
+.slidev-layout td,
+.slidev-page th,
+.slidev-page td {
+  border-bottom: 1px solid color-mix(in oklab, var(--panel-border) 72%, transparent);
+}
+
+/* panel-card */
+.panel-card,
+.slidev-layout.center > .my-auto,
+.slidev-page .slidev-layout.center > .my-auto {
+  border-radius: 30px;
+  border: 1px solid color-mix(in oklab, var(--panel-border) 76%, var(--panel-highlight));
+  background:
+    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 90%, transparent), color-mix(in oklab, var(--panel) 94%, transparent)),
+    linear-gradient(135deg, color-mix(in oklab, var(--accent) 4%, transparent), color-mix(in oklab, var(--accent-4) 5%, transparent));
+  box-shadow:
+    0 18px 60px var(--shadow),
+    0 2px 0 rgba(255, 255, 255, 0.18) inset,
+    0 0 0 1px color-mix(in oklab, var(--panel-border) 60%, transparent);
+  backdrop-filter: blur(24px) saturate(145%);
+}
+
+/* center layout */
+.slidev-layout.center,
+.slidev-page .slidev-layout.center {
+  padding: 30px;
+}
+
+.slidev-layout.center > .my-auto,
+.slidev-page .slidev-layout.center > .my-auto {
+  width: min(1100px, 100%);
+  padding: 30px 34px;
+}
+
+.slidev-layout.center > .my-auto > :first-child,
+.slidev-page .slidev-layout.center > .my-auto > :first-child {
+  margin-top: 0;
+}
+
+/* Slide-specific tweaks */
+/* center padding overrides (avoid vertical clipping on dense slides) */
+.slidev-layout.center.params-bias,
+.slidev-page.params-bias .slidev-layout.center {
+  padding: 18px;
+}
+
+.slidev-layout.center.params-bias > .my-auto,
+.slidev-page.params-bias .slidev-layout.center > .my-auto {
+  padding: 18px 22px;
+}
+
+.slidev-layout.center.speed,
+.slidev-page.speed .slidev-layout.center {
+  padding: 20px;
+}
+
+.slidev-layout.center.speed > .my-auto,
+.slidev-page.speed .slidev-layout.center > .my-auto {
+  padding: 18px 22px;
+}
+
+
+.slidev-layout.params-bias,
+.slidev-page.params-bias {
+  text-align: left;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.slidev-layout.params-bias h2,
+.slidev-page.params-bias h2 {
+  margin-bottom: 10px;
+}
+
+.slidev-layout.params-bias .params-bias-desc,
+.slidev-page.params-bias .params-bias-desc {
+  flex: 0 0 35%;
+  min-height: 0;
+  font-size: 24px;
+}
+
+.slidev-layout.params-bias .params-bias-desc ul,
+.slidev-page.params-bias .params-bias-desc ul {
+  margin: 0;
+  padding-left: 1.2em;
+}
+
+.slidev-layout.params-bias .params-bias-diag,
+.slidev-page.params-bias .params-bias-diag {
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.slidev-layout.params-bias .params-bias-diag .mermaid,
+.slidev-page.params-bias .params-bias-diag .mermaid {
+  width: 100%;
+}
+
+.slidev-layout.params-bias .params-bias-diag .mermaid svg,
+.slidev-page.params-bias .params-bias-diag .mermaid svg {
+  width: 100%;
+  height: 300px;
+}
+
+
+.slidev-layout.game-complexity.two-cols .cols > .col:last-child,
+.slidev-page.game-complexity .slidev-layout.two-cols .cols > .col:last-child {
+  font-size: 18px;
+}
+
+.slidev-layout.search-eval .col-right .mermaid,
+.slidev-page.search-eval .slidev-layout.two-cols .col-right .mermaid {
+  min-height: 420px;
+}
+
+.slidev-layout.search-eval .col-right .mermaid svg,
+.slidev-page.search-eval .slidev-layout.two-cols .col-right .mermaid svg {
+  width: 100%;
+  height: 420px;
+}
+
+/* speed */
+.slidev-layout.speed,
+.slidev-page.speed {
+  font-size: 24px;
+}
+
+.slidev-layout.speed table,
+.slidev-page.speed table {
+  font-size: 20px;
+  margin: 10px 0;
+}
+
+.slidev-layout.speed th,
+.slidev-layout.speed td,
+.slidev-page.speed th,
+.slidev-page.speed td {
+  padding: 5px 8px;
+}
+
+/* cpu-gpu */
+.slidev-layout.cpu-gpu table,
+.slidev-page.cpu-gpu table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.slidev-layout.cpu-gpu th,
+.slidev-layout.cpu-gpu td,
+.slidev-page.cpu-gpu th,
+.slidev-page.cpu-gpu td {
+  font-size: 20px;
+  padding: 6px 10px;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+/* halfkp */
+.halfkp-photo {
+  width: auto;
+  max-width: 100%;
+  max-height: 240px;
+  margin: 0 auto;
+  display: block;
+  object-fit: contain;
+  border-radius: 14px;
+  border: 1px solid var(--photo-border);
+  background: var(--photo-bg);
+}
+.halfkp-caption {
+  font-size: 16px;
+  line-height: 1.25;
+}
+/* nnue */
+.slidev-layout.nnue.two-cols .cols > .col:first-child,
+.slidev-page.nnue .slidev-layout.two-cols .cols > .col:first-child {
+  font-size: 26px;
+}
+
+/* sfnn */
+.slidev-layout.sfnn,
+.slidev-page.sfnn {
+  font-size: 26px;
+}
+.sfnn-arch {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  margin: 0 auto;
+  display: block;
+}
+
+.sfnn-link {
+  display: block;
+  text-align: center;
+  font-size: 18px;
+  margin-top: 6px;
+}
+
+/* center title spacing */
+.slidev-layout.center > .my-auto > :is(h1, h2, h3):first-child,
+.slidev-page .slidev-layout.center > .my-auto > :is(h1, h2, h3):first-child {
+  margin-bottom: 18px;
+}
+
+.slidev-layout.center > .my-auto > :is(h1, h2, h3):first-child + *,
+.slidev-page .slidev-layout.center > .my-auto > :is(h1, h2, h3):first-child + * {
+  margin-top: 0;
+}
+/* end layout light mode */
+html:not(.dark) .slidev-layout.end,
+html:not(.dark) .slidev-page .slidev-layout.end {
+  background: transparent !important;
+  color: var(--text) !important;
+}
+
+html:not(.dark) .slidev-layout.end :is(h1, h2, h3, p, div, span),
+html:not(.dark) .slidev-page .slidev-layout.end :is(h1, h2, h3, p, div, span) {
+  color: var(--text) !important;
+}
+
+.next-focus {
+  display: inline-block;
+  padding: 0.08em 0.45em;
+  border-radius: 999px;
+  font-weight: 700;
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent);
+}

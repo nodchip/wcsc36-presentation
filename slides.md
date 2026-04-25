@@ -61,9 +61,9 @@ layout: center
 
 ## 今日持ち帰ってほしいこと
 
-1. <NW>将棋 AI</NW> は <NW>探索</NW> と <NW>評価</NW> の組み合わせで強くなる
-2. <NW>CPU エンジン</NW> と <NW>GPU エンジン</NW> は設計思想がかなり違う
-3. 最新動向は <NW>評価関数の大型化</NW> と <NW>定跡の大規模化</NW>
+1. <NW>将棋 AI の</NW><NW>全体像</NW><NW>（探索・</NW><NW>評価・</NW><NW>NNUE・</NW><NW>SFNN）</NW>
+2. <NW>CPU エンジン</NW><NW>と</NW><NW>GPU エンジン</NW><NW>の</NW><NW>違い</NW>
+3. <NW>定跡</NW><NW>と</NW><NW>最新動向</NW>
 
 ---
 layout: two-cols
@@ -98,105 +98,124 @@ layout: section
 layout: image-right-framed
 image: assets/2026-02-27-111526.png
 backgroundSize: contain
-columns: 1.45fr 0.55fr
-frameMaxWidth: 420px
-frameMaxHeight: 320px
+columns: 1.3fr 0.7fr
+frameMaxWidth: 280px
+frameMaxHeight: 220px
 ---
 
 ## 将棋 AI とは
 
-<NW>現在の局面</NW>から、<NW>次に指す手</NW>を選ぶプログラム。
+- <NW>将棋を</NW><NW>指す</NW><NW>ソフトウェア</NW>
+- <NW>局面を</NW><NW>入力すると、</NW><NW>推奨手や</NW><NW>評価値を</NW><NW>提示</NW>
+  - <NW>推奨手:</NW> <NW>次に</NW><NW>指すべき指し手</NW>
+  - <NW>評価値:</NW> <NW>先手・後手の</NW><NW>有利さを</NW><NW>示す</NW><NW>数値</NW>
 
-### 強さを作る主な部品
-- <NW>合法手生成</NW>: 指せる手を列挙する
-- <NW>探索</NW>: 先の局面を読む
-- <NW>評価関数</NW>: 局面の良さを数値化する
-- <NW>定跡</NW>: 序盤で既知の良い手を使う
-- <NW>時間管理</NW>: 持ち時間を配分する
+::right::
+[ShogiHome](https://sunfish-shogi.github.io/shogihome/)
 
 ---
 layout: two-cols
-columns: 1fr 1fr
+class: game-tree
+columns: 1.3fr 0.7fr
 ---
 
 ## ゲーム木
 
 ::left::
-将棋では、1手指すごとに複数の応手があり、局面は木のように広がる。
-
-```mermaid
-flowchart TD
-  A[現在局面] --> B[候補手 1]
-  A --> C[候補手 2]
-  A --> D[候補手 3]
-  B --> E[応手 1]
-  B --> F[応手 2]
-  C --> G[応手 1]
-  C --> H[応手 2]
-```
+- <NW>合法手に</NW><NW>基づいて、</NW><NW>局面遷移を</NW><NW>木構造で</NW><NW>表したもの</NW>
+- <NW>ゲームの</NW><NW>状態遷移を</NW><NW>原理的に</NW><NW>すべて</NW><NW>表現できる</NW>
+- <NW>すべての</NW><NW>分岐を</NW><NW>調べ切ると、</NW><NW>最善手同士の</NW><NW>結果を</NW><NW>特定できる</NW>
+- <NW>この</NW><NW>過程を</NW><NW>「ゲームを解く」</NW><NW>と呼ぶ</NW>
 
 ::right::
-### 読み切れない理由
-- 分岐が多い
-- 終局までが長い
-- 持ち駒で合法手が増える
-- 時間制限がある
 
-そこで、<NW>全部読む</NW>のではなく、<NW>重要そうなところ</NW>を重点的に読む。
+```mermaid
+%%{init: {'flowchart': {'useMaxWidth': true}}}%%
+flowchart TD
+  A@{ img: "./assets/image4.png", h: 110, constraint: "on" } --> B1@{ img: "./assets/image6.png", h: 110, constraint: "on" }
+  A --> B2@{ img: "./assets/image5.png", h: 110, constraint: "on" }
+  B1 --> C1@{ img: "./assets/image8.png", h: 110, constraint: "on" }
+  B1 --> C2@{ img: "./assets/image7.png", h: 110, constraint: "on" }
+  B2 --> C3[...]
+  C1 --> D1@{ img: "./assets/image9.png", h: 110, constraint: "on" }
+  C1 --> D2@{ img: "./assets/image10.png", h: 110, constraint: "on" }
+  C2 --> D3[...]
+  D1 --> E1[...]
+  D2 --> E2[...]
+
+  linkStyle default stroke-width:2px;
+```
 
 ---
 layout: two-cols
-columns: 1fr 1fr
+class: game-complexity
+columns: 1.3fr 0.7fr
 ---
 
 ## 探索量から見たゲームの複雑さ
 
 ::left::
-### ざっくりした増え方
-
-平均分岐数を `b`、読む深さを `d` とすると、単純には
-
-`b^d`
-
-だけ局面が増える。
+- <NW>ゲームを</NW><NW>解くための</NW><NW>探索局面数は、</NW><NW>複雑さの</NW><NW>目安になる</NW>
+- <NW>探索局面数</NW><NW>≒</NW><NW>N<sup>M</sup></NW>
+  - <NW>N:</NW><NW>平均合法手数</NW>
+  - <NW>M:</NW><NW>平均終了手数</NW>
+- <NW>複雑な</NW><NW>ゲームでは、</NW><NW>現実的な</NW><NW>時間内に</NW><NW>全探索は</NW><NW>不可能</NW>
 
 ::right::
-### 例
 
-| 平均分岐数 | 深さ | 局面数 |
-|---:|---:|---:|
-| 30 | 4 | 約 81万 |
-| 30 | 6 | 約 7.3億 |
-| 30 | 8 | 約 6,561億 |
-
-<NW>深さを少し増やす</NW>だけで、必要な計算量は急増する。
+| ゲーム | 探索局面数 |
+| --- | --- |
+| チェッカー | 10<sup>30</sup> |
+| オセロ | 10<sup>60</sup> |
+| チェス | 10<sup>120</sup> |
+| 中国象棋 | 10<sup>150</sup> |
+| 将棋 | 10<sup>220</sup> |
+| 囲碁 | 10<sup>360</sup> |
 
 ---
 layout: two-cols
-columns: 1fr 1fr
+class: search-eval
+columns: 1.3fr 0.7fr
 ---
 
 ## 探索と評価
 
 ::left::
-```mermaid
-flowchart LR
-  A[局面] --> B[合法手生成]
-  B --> C[探索]
-  C --> D[評価関数]
-  D --> C
-  C --> E[bestmove]
-```
+- <NW>一定の</NW><NW>手数まで</NW><NW>「探索」し、</NW><NW>到達局面を</NW><NW>「評価」する</NW>
+  - <NW>探索:</NW> <NW>人間の</NW><NW>「読み」に</NW><NW>相当</NW>
+  - <NW>評価:</NW> <NW>人間の</NW><NW>「大局観」に</NW><NW>相当</NW>
 
 ::right::
-### 探索
-- どの変化を読むか決める
-- 悪そうな枝を早めに捨てる
-- 時間内に最善手を探す
 
-### 評価
-- 読みの末端局面に点数を付ける
-- 駒得、玉の安全、攻めの速度などを反映する
+```mermaid
+%%{init: {'flowchart': {'useMaxWidth': true, 'htmlLabels': false}}}%%
+flowchart TD
+  A[3] --> B1[3]
+  A --> B2[1]
+  B1 --> C1[7]
+  B1 --> C2[3]
+  B1 --> C3[5]
+  B2 --> C4[2]
+  B2 --> C5[4]
+  B2 --> C6[1]
+
+  C2 -.-> B1
+  C6 -.-> B2
+  B1 -.-> A
+
+  class A,B1,B2,C1,C2,C3,C4,C5,C6 sq;
+  classDef sq font-size:64px,font-weight:700;
+  linkStyle default stroke-width:4px;
+```
+
+<div style="text-align:center; margin-top: 10px; font-size: 18px; line-height: 1.25">
+  <NW>□:</NW> <NW>局面</NW><br>
+  <NW>□の中の数字:</NW> <NW>評価値</NW><br>
+  <NW>実線:</NW> <NW>差し手（遷移）</NW><br>
+  <NW>破線:</NW> <NW>評価値の伝搬</NW><br>
+  <NW>左側の</NW><NW>状態に</NW><NW>遷移する</NW><NW>手が</NW><NW>最善</NW><br>
+  <NW>この時の</NW><NW>評価値は</NW><NW>3</NW>
+</div>
 
 ---
 layout: section
@@ -206,18 +225,19 @@ layout: section
 
 ---
 layout: center
+class: cpu-gpu
 ---
 
 ## CPU エンジンと GPU エンジン
 
-| 観点 | CPU エンジン | GPU エンジン |
-|---|---|---|
-| 探索 | アルファ・ベータ探索 | MCTS / PUCT |
-| 評価 | NNUE などの高速評価 | 深いニューラルネットワーク |
-| 得意 | 大量の分岐を細かく刈る | 大きな NN をまとめて評価 |
-| 代表的な呼び方 | NNUE系 | DL系 |
-
-どちらも「探索」と「評価」の組み合わせだが、計算資源の使い方が違う。
+| 項目 | CPUエンジン | GPUエンジン |
+| --- | --- | --- |
+| 探索アルゴリズム | アルファ・ベータ法 | PUCT |
+| 評価関数 | <span class="next-focus">NNUE評価関数</span> | ディープラーニング評価関数 |
+| 探索速度 | 速い | 遅い |
+| 評価精度 | 低い | 高い |
+| 特異な局面 | 終盤 | 序盤 |
+| 主な将棋AI | やねうら王・水匠・tanuki- | dlshogi |
 
 ---
 layout: section
@@ -227,13 +247,17 @@ layout: section
 
 ---
 layout: two-cols
+class: nnue
 columns: 1fr 1fr
 ---
 
 ## ミニマックス法
 
 ::left::
-自分は評価値を最大化し、相手は評価値を最小化すると考える。
+- <NW>先手は</NW><NW>評価値の</NW><NW>最大化を</NW><NW>目指す手を</NW><NW>選択</NW>
+  - <NW>先手:</NW> <NW>マックスプレイヤー</NW>
+- <NW>後手は</NW><NW>評価値の</NW><NW>最小化を</NW><NW>目指す手を</NW><NW>選択</NW>
+  - <NW>後手:</NW> <NW>ミニマムプレイヤー</NW>
 
 ```mermaid
 flowchart TD
@@ -246,12 +270,10 @@ flowchart TD
 ```
 
 ::right::
-### 考え方
-- 自分番: 一番良い手を選ぶ
-- 相手番: 相手にとって一番良い手を選ばれる
-- 完全情報ゲームと相性が良い
-
-ただし、そのままだと読む局面数が多すぎる。
+### 図の意味
+- <NW>先手:</NW> <NW>大きい</NW><NW>評価値を</NW><NW>選ぶ</NW>
+- <NW>後手:</NW> <NW>小さい</NW><NW>評価値を</NW><NW>選ぶ</NW>
+- <NW>終端接点:</NW> <NW>評価を</NW><NW>行った局面</NW>
 
 ---
 layout: two-cols
@@ -261,7 +283,11 @@ columns: 1fr 1fr
 ## アルファ・ベータ法
 
 ::left::
-ミニマックスと同じ結果を保ちながら、結論に影響しない枝を読まない。
+- <NW>ミニマックス法と</NW><NW>同じ計算結果</NW>
+- <NW>不要な探索の</NW><NW>枝刈り</NW>
+- <NW>枝刈りの例</NW>
+  - <NW>現在の</NW><NW>先手の</NW><NW>評価値は</NW> <NW>3</NW>
+  - <NW>先手の</NW><NW>評価値の</NW><NW>更新には</NW> <NW>4</NW> <NW>以上の</NW><NW>評価値が</NW><NW>必要</NW>
 
 ```mermaid
 flowchart TD
@@ -274,12 +300,12 @@ flowchart TD
 ```
 
 ::right::
-### 効果
-- 良い手順に早く当たるほど枝刈りが効く
-- move ordering が非常に重要
-- 反復深化、置換表、静止探索などと組み合わせる
-
-CPU エンジンはこの周辺技術の積み上げで強くなってきた。
+### 枝刈りの例
+- <NW>後手は</NW><NW>低い</NW><NW>評価値を</NW><NW>選択</NW>
+- <NW>調査した</NW><NW>終端接点の</NW><NW>評価値は</NW> <NW>2</NW>
+- <NW>後手の</NW><NW>評価値は</NW> <NW>2</NW> <NW>以下</NW>
+- <NW>先手の</NW><NW>評価値は</NW><NW>更新されない</NW>
+- <NW>この枝の</NW><NW>探索打ち切りが</NW><NW>可能</NW>
 
 ---
 layout: two-cols
@@ -289,12 +315,15 @@ columns: 1fr 1fr
 ## NNUE 評価関数
 
 ::left::
-NNUE は、CPU 上で高速に動くように設計されたニューラルネットワーク評価関数。
-
-### 特徴
-- 入力は疎な特徴量
-- 1手ごとの差分で更新できる
-- 整数演算で高速に推論できる
+- <NW>2018年</NW> <NW>那須悠</NW> <NW>氏により</NW><NW>発表</NW>
+- <NW>ディープラーニングによる</NW><NW>評価関数</NW>
+- <NW>CPU による</NW><NW>高速な推論</NW>
+- <NW>全結合ニューラルネットワーク</NW>
+- <NW>活性関数は</NW> <NW>clipped ReLU</NW>
+- <NW>差分計算による</NW><NW>効率化</NW>
+- <NW>手番の</NW><NW>考慮</NW>
+- <NW>HalfKP</NW><NW>特徴量</NW>
+- <NW>整数 SIMD 演算による</NW><NW>高速化</NW>
 
 ::right::
 ```mermaid
@@ -305,8 +334,6 @@ flowchart TD
   D --> E[評価値]
 ```
 
-探索量を落とさず、評価を賢くするための仕組み。
-
 ---
 layout: two-cols
 columns: 1fr 1fr
@@ -315,19 +342,21 @@ columns: 1fr 1fr
 ## 全結合ニューラルネットワーク
 
 ::left::
-NNUE の中核は全結合層。
+<NW>隠れ層</NW> <NW>3</NW> <NW>層程度の</NW><NW>浅い</NW><NW>ディープラーニング</NW>
 
-入力ベクトルに重みを掛け、バイアスを足して、次の層へ渡す。
-
-`y = W x + b`
+```mermaid
+flowchart LR
+  I[入力層<br>特徴量] --> H1[隠れ層]
+  H1 --> H2[隠れ層]
+  H2 --> H3[隠れ層]
+  H3 --> O[出力層<br>評価値]
+```
 
 ::right::
-### 将棋 AI で難しい点
-- 入力候補が多い
-- 探索中に何百万回も評価する
-- 毎回ゼロから計算すると遅い
-
-だから NNUE では、<NW>疎な入力</NW>と<NW>差分更新</NW>が効く。
+### NNUE で使われる構成
+- <NW>入力層:</NW> <NW>特徴量</NW>
+- <NW>隠れ層:</NW> <NW>全結合層</NW>
+- <NW>出力層:</NW> <NW>評価値</NW>
 
 ---
 layout: image-right-framed
@@ -340,14 +369,14 @@ frameMaxHeight: 330px
 
 ## HalfKP 特徴量
 
-玉の位置と、盤上の駒・持ち駒の組み合わせで特徴を作る。
+- <NW>将棋盤面を</NW><NW>表す</NW><NW>数値ベクトル</NW>
+- <NW>玉の位置</NW><NW>と</NW><NW>玉以外の</NW> <NW>1</NW> <NW>駒の</NW><NW>位置と種類の</NW><NW>組み合わせを</NW><NW>One-hot encoding</NW><NW>し、</NW><NW>加算</NW>
+- <NW>81 × 1548 =</NW> <NW>125,388</NW> <NW>次元の</NW><NW>ベクトル</NW>
 
-### 直感
-- 王様の位置が変わると、駒の価値も変わる
-- 攻め駒か守り駒かは玉との関係で決まる
-- 局面の差分だけを更新しやすい
-
-NNUE の速さは、特徴設計と実装最適化の両方で支えられている。
+<div class="halfkp-caption">
+<NW>玉と</NW><NW>玉以外の</NW><NW>駒 1 つの</NW><NW>組み合わせの</NW><NW>例</NW><br>
+<NW>盤面上に</NW><NW>存在する</NW><NW>すべての</NW><NW>組み合わせを</NW><NW>One-hot encoding</NW><NW>したものを</NW><NW>足し合わせる</NW>
+</div>
 
 ---
 layout: section
@@ -363,13 +392,11 @@ columns: 1fr 1fr
 ## GPU エンジンの探索アルゴリズム
 
 ::left::
-GPU エンジンでは、深いニューラルネットワークの出力を使いながら探索することが多い。
+<NW>PUCT</NW>
 
-### 代表例
-- MCTS
-- PUCT
-- 方策ネットワーク
-- 価値ネットワーク
+- <NW>モンテカルロ木探索に</NW><NW>基づく探索</NW>
+- <NW>評価関数が</NW><NW>出力する</NW><NW>勝率と</NW><NW>着手の確率を</NW><NW>使う</NW>
+- <NW>勝率</NW><NW>・</NW><NW>着手の確率</NW><NW>・</NW><NW>探索回数の少なさ</NW><NW>を</NW><NW>組み合わせる</NW>
 
 ::right::
 ```mermaid
@@ -390,20 +417,23 @@ columns: 1fr 1fr
 ## PUCT
 
 ::left::
-PUCT は、よく勝てそうな手と、まだ十分調べていない手のバランスを取る。
+- <NW>以下の式が</NW><NW>最大となる手を</NW><NW>選択</NW>
 
-### 使う情報
-- これまでの平均価値
-- 訪問回数
-- 方策ネットワークの事前確率
+`Q(s,a) + c P(s,a) sqrt(N(s)) / (1 + N(s,a))`
+
+- <NW>s:</NW> <NW>局面</NW>
+- <NW>a:</NW> <NW>着手</NW>
+- <NW>Q(s,a):</NW> <NW>局面 s における</NW><NW>着手 a の</NW><NW>勝率</NW>
+- <NW>P(s,a):</NW> <NW>着手の確率</NW>
+- <NW>N(s,a):</NW> <NW>s における a の</NW><NW>訪問回数</NW>
 
 ::right::
-### ざっくり言うと
+### 評価関数が出力するもの
+- <NW>Q:</NW> <NW>勝率</NW>
+- <NW>P:</NW> <NW>着手の確率</NW>
 
-`選びたい度 = 実績 + 未探索ボーナス`
-
-方策が「有望」と言う手は早めに試す。
-ただし、実際に悪ければ探索の中で評価が下がる。
+### 探索で足されるもの
+- <NW>探索回数の</NW><NW>少なさ</NW>
 
 ---
 layout: two-cols
@@ -413,11 +443,11 @@ columns: 1fr 1fr
 ## GPU エンジンの評価関数
 
 ::left::
-GPU エンジンの評価関数は、局面を入力して複数の出力を返す。
-
-### 主な出力
-- <NW>方策</NW>: 各指し手の有望度
-- <NW>価値</NW>: 勝敗や期待値
+- <NW>畳み込みニューラルネットワーク</NW><NW>（CNN）を</NW><NW>使用</NW>
+- <NW>画像認識などで</NW><NW>用いられる</NW><NW>一般的手法の</NW><NW>応用</NW>
+- <NW>局面を</NW><NW>複数の</NW><NW>画像に</NW><NW>変換して</NW><NW>入力</NW>
+- <NW>中間層は</NW> <NW>ResNet</NW>
+- <NW>出力層は</NW><NW>着手確率と</NW><NW>勝率を</NW><NW>出力</NW>
 
 ::right::
 ```mermaid
@@ -438,23 +468,29 @@ columns: 1fr 1fr
 
 ::left::
 ### 入力層
-- 盤上の駒
-- 持ち駒
-- 手番
-- 王手、千日手などの補助情報
+- <NW>局面を</NW><NW>画像に</NW><NW>変換して</NW><NW>入力</NW>
+- <NW>駒の種類ごとに</NW> <NW>2</NW> <NW>値画像を</NW><NW>作成</NW>
+- <NW>駒があるマス:</NW> <NW>白（1）</NW>
+- <NW>駒がないマス:</NW> <NW>黒（0）</NW>
+- <NW>持ち駒の種類ごとに</NW><NW>最大枚数分の</NW><NW>画像を</NW><NW>用意</NW>
+- <NW>合計</NW> <NW>104</NW> <NW>枚の画像として</NW><NW>入力</NW>
 
 ### 中間層
-- 畳み込み層や ResNet ブロック
-- 盤面全体の形を抽出する
+- <NW>ResNet</NW><NW>（Residual Network）</NW>
+- <NW>ネットワークの</NW><NW>深層化に</NW><NW>強い構造</NW>
+- <NW>層をスキップする</NW><NW>ショートカット接続の</NW><NW>導入</NW>
 
 ::right::
 ### 方策ネットワーク
-- 合法手ごとの有望度を出す
-- 探索でどの手から読むかに効く
+- <NW>着手確率を</NW><NW>出力</NW>
+- <NW>指し手の表現は</NW><NW>移動先 × 移動方向の</NW><NW>組み合わせ</NW>
+- <NW>出力層は</NW><NW>フィルターサイズ</NW> <NW>1×1</NW><NW>、</NW><NW>フィルター数</NW> <NW>27</NW> <NW>の畳み込み層</NW>
 
 ### 価値ネットワーク
-- 局面の勝ちやすさを出す
-- ロールアウトの代わりに使う
+- <NW>勝率を</NW><NW>出力</NW>
+- <NW>出力層は</NW><NW>1×1 フィルター・27 チャネルの畳み込み層</NW>
+- <NW>ユニット数</NW> <NW>256</NW> <NW>の全結合層</NW>
+- <NW>ユニット数</NW> <NW>1</NW> <NW>の全結合層</NW>
 
 ---
 layout: two-cols
@@ -464,20 +500,57 @@ columns: 1fr 1fr
 ## 定跡
 
 ::left::
-定跡は、序盤局面に対する事前計算済みの知識。
-
-### 役割
-- 序盤で時間を節約する
-- 悪い変化に入るのを避ける
-- 深く調べた変化を実戦に持ち込む
+- <NW>局面と</NW><NW>その局面における</NW><NW>指し手の</NW><NW>リスト</NW>
+- <NW>定跡の役割</NW>
+  - <NW>序盤の</NW><NW>思考時間を</NW><NW>節約</NW>
+  - <NW>評価関数の</NW><NW>精度の悪さを</NW><NW>補助</NW>
+  - <NW>有利な局面への</NW><NW>誘導</NW>
 
 ::right::
-### 現代的な使われ方
-- エンジンで大量に局面を掘る
-- minimax 化して整合性を取る
-- 相手や持ち時間に応じて使い方を変える
 
-定跡も、いまでは巨大な探索結果のデータベースになっている。
+### 例
+
+- <NW>☗２六歩</NW> <NW>96%</NW>
+- <NW>☗７六歩</NW> <NW>2%</NW>
+- <NW>...</NW>
+
+---
+layout: two-cols
+columns: 1fr 1fr
+---
+
+## 定跡 2010 年代
+
+::left::
+### 2010 年代前半
+- <NW>手動入力による</NW><NW>構築</NW>
+- <NW>プロ棋士の</NW><NW>棋譜からの</NW><NW>生成</NW>
+- <NW>floodgate の</NW><NW>棋譜からの</NW><NW>自動抽出</NW>
+
+::right::
+### 2010 年代後半
+- <NW>自己対局による</NW><NW>定跡生成</NW>
+- <NW>勝率に基づく</NW><NW>選別</NW>
+- <NW>評価値に基づく</NW><NW>選別</NW>
+- <NW>定跡データベース末端局面の</NW><NW>評価値による</NW><NW>ミニマックス処理</NW>
+
+---
+layout: two-cols
+columns: 1fr 1fr
+---
+
+## 定跡 2020 年代
+
+::left::
+### 2020 年代前半
+- <NW>自己対局結果による</NW><NW>定跡の自動修正</NW>
+- <NW>不利な手順の</NW><NW>削除・置換</NW>
+- <NW>有利な手順の</NW><NW>強化・拡張</NW>
+- <NW>代表例:</NW> <NW>角換わり水匠定跡</NW>
+
+::right::
+### 2020 年代後半
+- <NW>？？？</NW>
 
 ---
 layout: section
@@ -488,6 +561,7 @@ layout: section
 ---
 layout: image-right-framed
 image: assets/SFNNv9_architecture_detailed_v2.Bw_vbb_h.svg
+class: sfnn
 backgroundSize: contain
 columns: 1fr 1fr
 frameMaxWidth: 520px
@@ -496,14 +570,16 @@ frameMaxHeight: 360px
 
 ## SFNN
 
-Stockfish 系 NNUE の進化で、大きめの特徴変換器や LayerStack 的な構成が使われるようになっている。
+- <NW>Stockfish</NW> <NW>チームによる</NW><NW>改良版</NW>
+  - <NW>Stockfish:</NW> <NW>世界最強の</NW><NW>チェス</NW> <NW>AI</NW>
+- <NW>HalfKAv2_hm</NW> <NW>特徴量</NW>
+- <NW>Full_Threats</NW> <NW>特徴量</NW>
+- <NW>Feature Transformer</NW> <NW>の一部の直接出力</NW>
+- <NW>LayerStack</NW>
+- <NW>Element-wise</NW> <NW>multiply</NW>
+- <NW>SqrClippedReLU</NW>
 
-### 将棋 AI から見るポイント
-- NNUE はまだ CPU エンジンの主戦場
-- ネットワークを大きくすると評価は賢くなる
-- ただし探索中に何度も呼ぶので速度との勝負
-
-将棋側でも、SFNN 系の設計をどう取り込むかが重要になる。
+[NNUE | Stockfish Docs](https://official-stockfish.github.io/docs/nnue-pytorch-wiki/docs/nnue.html){.sfnn-link}
 
 ---
 layout: two-cols

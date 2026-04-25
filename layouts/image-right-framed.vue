@@ -27,6 +27,23 @@ const props = defineProps({
   },
 })
 
+const imageSrc = computed(() => {
+  if (!props.image)
+    return ''
+
+  if (/^(?:https?:)?\/\//.test(props.image) || props.image.startsWith('data:'))
+    return props.image
+
+  const base = import.meta.env.BASE_URL
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`
+  const normalizedImage = props.image
+    .replace(/^\.?\/public\//, '')
+    .replace(/^\.\//, '')
+    .replace(/^\//, '')
+
+  return `${normalizedBase}${normalizedImage}`
+})
+
 const imgStyle = computed(() => ({
   maxWidth: props.frameMaxWidth,
   maxHeight: props.frameMaxHeight,
@@ -48,9 +65,9 @@ const imgStyle = computed(() => ({
       <div class="image-right-framed__right">
         <div class="image-right-framed__media">
           <img
-            v-if="props.image"
+            v-if="imageSrc"
             class="image-right-framed__image"
-            :src="props.image"
+            :src="imageSrc"
             alt=""
             :style="imgStyle"
           >

@@ -39,7 +39,7 @@ layout: section
 
 ---
 layout: image-right-framed
-image: ./public/assets/S0650008697-0024-clipped-Hisayori-Noda.jpg
+image: assets/S0650008697-0024-clipped-Hisayori-Noda.jpg
 backgroundSize: contain
 columns: 1.8fr 0.2fr
 frameMaxWidth: 320px
@@ -96,7 +96,7 @@ layout: section
 
 ---
 layout: image-right-framed
-image: ./public/assets/2026-02-27-111526.png
+image: assets/2026-02-27-111526.png
 backgroundSize: contain
 columns: 1.45fr 0.55fr
 frameMaxWidth: 420px
@@ -331,7 +331,7 @@ NNUE の中核は全結合層。
 
 ---
 layout: image-right-framed
-image: ./public/assets/HalfKP.png
+image: assets/HalfKP.png
 backgroundSize: contain
 columns: 1.35fr 0.65fr
 frameMaxWidth: 440px
@@ -487,7 +487,7 @@ layout: section
 
 ---
 layout: image-right-framed
-image: ./public/assets/SFNNv9_architecture_detailed_v2.Bw_vbb_h.svg
+image: assets/SFNNv9_architecture_detailed_v2.Bw_vbb_h.svg
 backgroundSize: contain
 columns: 1fr 1fr
 frameMaxWidth: 520px

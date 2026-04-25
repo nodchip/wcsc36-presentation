@@ -1,57 +1,85 @@
 :root {
-  --bg: #f6f9ff;
-  --bg-2: #eef4ff;
-  --bg-3: #ffffff;
-  --panel: rgba(255, 255, 255, 0.66);
-  --panel-strong: rgba(255, 255, 255, 0.82);
-  --panel-border: rgba(87, 118, 176, 0.16);
-  --panel-highlight: rgba(255, 255, 255, 0.72);
-  --text: #162033;
-  --muted: rgba(22, 32, 51, 0.62);
-  --accent: #1a73e8;
-  --accent-2: #4b8dff;
-  --accent-3: #8b6dff;
-  --accent-4: #51d7ff;
-  --shadow: rgba(35, 54, 104, 0.14);
-  --shadow-strong: rgba(35, 54, 104, 0.2);
-  --photo-bg: rgba(255, 255, 255, 0.48);
-  --photo-border: rgba(110, 143, 205, 0.18);
+  --bg: #f6f1e5;
+  --bg-2: #efe4cf;
+  --bg-3: #fffaf0;
+  --panel: rgba(255, 250, 240, 0.94);
+  --panel-strong: #fffaf0;
+  --panel-border: #c9b58e;
+  --panel-highlight: rgba(255, 255, 255, 0.76);
+  --text: #1b1712;
+  --muted: #665a49;
+  --accent: #b83a2b;
+  --accent-2: #1f5d48;
+  --accent-3: #8b5a2b;
+  --accent-4: #d9a34a;
+  --board: #d5a45a;
+  --board-line: rgba(86, 58, 29, 0.32);
+  --shadow: rgba(64, 47, 25, 0.12);
+  --shadow-strong: rgba(64, 47, 25, 0.22);
+  --photo-bg: rgba(255, 250, 240, 0.82);
+  --photo-border: #bfa878;
 }
 
 html.dark {
-  --bg: #0c1222;
-  --bg-2: #11192d;
-  --bg-3: #151f36;
-  --panel: rgba(14, 22, 40, 0.62);
-  --panel-strong: rgba(17, 27, 50, 0.8);
-  --panel-border: rgba(166, 195, 255, 0.14);
-  --panel-highlight: rgba(255, 255, 255, 0.08);
-  --text: #eff4ff;
-  --muted: rgba(239, 244, 255, 0.7);
-  --accent: #8ab4ff;
-  --accent-2: #7adfff;
-  --accent-3: #b497ff;
-  --accent-4: #8ff2dc;
+  --bg: #14110d;
+  --bg-2: #211a12;
+  --bg-3: #2b2116;
+  --panel: rgba(35, 28, 20, 0.94);
+  --panel-strong: #2b2116;
+  --panel-border: #7d6540;
+  --panel-highlight: rgba(255, 238, 204, 0.08);
+  --text: #f7ead5;
+  --muted: #c7b99f;
+  --accent: #ef604d;
+  --accent-2: #70b08e;
+  --accent-3: #d19a5d;
+  --accent-4: #f0c06d;
+  --board: #8d6536;
+  --board-line: rgba(250, 222, 174, 0.22);
   --shadow: rgba(0, 0, 0, 0.26);
-  --shadow-strong: rgba(0, 0, 0, 0.4);
-  --photo-bg: rgba(255, 255, 255, 0.06);
-  --photo-border: rgba(171, 197, 255, 0.14);
+  --shadow-strong: rgba(0, 0, 0, 0.42);
+  --photo-bg: rgba(255, 246, 226, 0.06);
+  --photo-border: #7d6540;
 }
 
 html,
 body,
 .slidev-page {
   background:
-    radial-gradient(980px 740px at 10% -8%, color-mix(in oklab, var(--accent) 24%, transparent), transparent 60%),
-    radial-gradient(880px 640px at 92% 12%, color-mix(in oklab, var(--accent-4) 22%, transparent), transparent 58%),
-    radial-gradient(760px 660px at 76% 84%, color-mix(in oklab, var(--accent-3) 18%, transparent), transparent 62%),
-    linear-gradient(180deg, var(--bg-2), var(--bg));
+    linear-gradient(90deg, transparent 0 87px, var(--board-line) 88px 89px, transparent 90px),
+    linear-gradient(0deg, transparent 0 87px, var(--board-line) 88px 89px, transparent 90px),
+    linear-gradient(135deg, color-mix(in oklab, var(--bg-2) 86%, white), var(--bg) 48%, var(--bg-3));
+  background-size: 90px 90px, 90px 90px, auto;
   color: var(--text);
+}
+
+.slidev-page {
+  position: relative;
+}
+
+.slidev-page::before {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px solid color-mix(in oklab, var(--panel-border) 56%, transparent);
+  pointer-events: none;
+}
+
+.slidev-page::after {
+  content: "WCSC36";
+  position: absolute;
+  right: 28px;
+  bottom: 18px;
+  color: color-mix(in oklab, var(--muted) 58%, transparent);
+  font-family: "Space Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  pointer-events: none;
 }
 
 .slidev-layout {
   font-family: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  letter-spacing: 0.008em;
+  letter-spacing: 0;
   font-size: 28px;
   line-height: 1.5;
   line-break: strict;
@@ -65,8 +93,8 @@ h1,
 h2,
 h3 {
   font-family: "Noto Sans JP", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  letter-spacing: -0.035em;
-  font-weight: 700;
+  letter-spacing: 0;
+  font-weight: 750;
 }
 
 code,
@@ -76,62 +104,55 @@ pre,
 }
 
 .slidev-layout h1 {
-  font-size: 68px;
-  line-height: 1.04;
+  font-size: 66px;
+  line-height: 1.06;
 }
 
 .slidev-layout h2 {
   font-size: 42px;
-  line-height: 1.12;
+  line-height: 1.14;
 }
 
 .slidev-layout h3 {
   font-size: 30px;
-  line-height: 1.2;
+  line-height: 1.22;
 }
 
 .cover {
   position: relative;
   display: grid;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 500px;
+  align-content: center;
   gap: 18px;
   overflow: hidden;
-  padding: 48px 52px;
-  border-radius: 32px;
+  padding: 48px 54px;
+  border: 2px solid var(--text);
+  border-radius: 8px;
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 92%, transparent), color-mix(in oklab, var(--panel) 92%, transparent)),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.02));
-  border: 1px solid color-mix(in oklab, var(--panel-border) 78%, var(--panel-highlight));
-  box-shadow:
-    0 28px 80px var(--shadow),
-    inset 0 1px 0 var(--panel-highlight);
-  backdrop-filter: blur(22px) saturate(140%);
+    linear-gradient(90deg, transparent 0 52px, color-mix(in oklab, var(--board-line) 76%, transparent) 53px 54px, transparent 55px),
+    linear-gradient(0deg, transparent 0 52px, color-mix(in oklab, var(--board-line) 76%, transparent) 53px 54px, transparent 55px),
+    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 92%, var(--board)), var(--panel));
+  background-size: 54px 54px, 54px 54px, auto;
+  box-shadow: 0 22px 58px var(--shadow), inset 0 0 0 8px color-mix(in oklab, var(--panel-border) 26%, transparent);
 }
 
 .cover::before {
-  content: "";
-  position: absolute;
-  inset: auto -60px -120px auto;
-  width: 360px;
-  height: 360px;
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.2) 18%, transparent 42%),
-    conic-gradient(from 210deg, color-mix(in oklab, var(--accent) 80%, white), color-mix(in oklab, var(--accent-4) 88%, white), color-mix(in oklab, var(--accent-3) 80%, white), color-mix(in oklab, var(--accent) 80%, white));
-  filter: blur(18px);
-  opacity: 0.88;
-  pointer-events: none;
+  content: none;
 }
 
 .cover::after {
   content: "";
   position: absolute;
-  inset: -80px auto auto -120px;
-  width: 320px;
-  height: 240px;
-  border-radius: 999px;
-  background: radial-gradient(circle, color-mix(in oklab, var(--accent-2) 14%, transparent), transparent 70%);
-  filter: blur(12px);
-  pointer-events: none;
+  right: 42px;
+  top: 42px;
+  width: 72px;
+  height: 88px;
+  background: linear-gradient(180deg, #f1cf90, #d59b4b);
+  clip-path: polygon(50% 0, 94% 20%, 82% 100%, 18% 100%, 6% 20%);
+  box-shadow: inset 0 0 0 2px rgba(88, 56, 24, 0.42);
+  opacity: 0.82;
 }
 
 .cover > * {
@@ -140,42 +161,38 @@ pre,
 }
 
 .cover h1 {
-  max-width: 11ch;
+  width: 100%;
+  max-width: none;
   margin: 0;
-  font-size: 72px;
-  line-height: 1.02;
+  color: var(--text);
+  font-size: 70px;
+  line-height: 1.04;
+  text-align: center;
   text-wrap: balance;
 }
 
 .eyebrow {
   width: fit-content;
   margin-inline: auto;
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: 1px solid color-mix(in oklab, var(--panel-border) 70%, white);
-  background: color-mix(in oklab, var(--panel-strong) 78%, transparent);
+  padding: 6px 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--panel-strong) 84%, transparent);
   color: var(--muted);
   font-size: 15px;
-  font-weight: 550;
-  letter-spacing: 0.02em;
+  font-weight: 650;
+  letter-spacing: 0;
   text-align: center;
-  backdrop-filter: blur(12px);
 }
 
 .subtitle {
-  max-width: 34ch;
-  font-size: 24px;
-  color: var(--muted);
-  margin: 0;
-  line-height: 1.45;
-}
-
-.cover h1,
-.cover .subtitle {
   width: 100%;
   max-width: none;
+  margin: 0;
+  color: var(--muted);
+  font-size: 24px;
+  line-height: 1.45;
   text-align: center;
-  justify-self: stretch;
 }
 
 .meta {
@@ -184,8 +201,8 @@ pre,
   gap: 12px;
   margin-top: 10px;
   padding-top: 16px;
+  border-top: 2px solid color-mix(in oklab, var(--panel-border) 70%, transparent);
   text-align: center;
-  border-top: 1px solid color-mix(in oklab, var(--panel-border) 84%, transparent);
 }
 
 .muted {
@@ -194,7 +211,7 @@ pre,
 
 a {
   color: var(--accent);
-  text-decoration-color: color-mix(in oklab, var(--accent) 36%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--accent) 46%, transparent);
   text-underline-offset: 0.15em;
 }
 
@@ -209,36 +226,37 @@ a {
 
 .slidev-layout.section h1 {
   position: relative;
+  min-width: min(760px, 88vw);
   margin: 0;
-  padding: 26px 32px;
-  border-radius: 28px;
-  border: 1px solid color-mix(in oklab, var(--panel-border) 78%, var(--panel-highlight));
+  padding: 34px 44px;
+  border: 2px solid var(--text);
+  border-radius: 8px;
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 90%, transparent), color-mix(in oklab, var(--panel) 90%, transparent)),
-    linear-gradient(135deg, color-mix(in oklab, var(--accent) 10%, transparent), color-mix(in oklab, var(--accent-4) 10%, transparent));
-  box-shadow:
-    0 22px 60px var(--shadow),
-    inset 0 1px 0 var(--panel-highlight);
-  backdrop-filter: blur(18px) saturate(135%);
+    linear-gradient(90deg, color-mix(in oklab, var(--board-line) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(0deg, color-mix(in oklab, var(--board-line) 70%, transparent) 1px, transparent 1px),
+    linear-gradient(180deg, var(--panel-strong), var(--panel));
+  background-size: 54px 54px, 54px 54px, auto;
+  box-shadow: 0 18px 42px var(--shadow);
+  text-align: center;
 }
 
 .slidev-layout.section h1::before {
   content: "";
   position: absolute;
-  inset: 12px auto 12px 12px;
-  width: 6px;
-  border-radius: 999px;
-  background: linear-gradient(180deg, var(--accent), var(--accent-4), var(--accent-3));
+  inset: 16px auto 16px 18px;
+  width: 8px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-2));
 }
 
 .intro-photo {
   width: 100%;
   max-height: 420px;
   object-fit: contain;
-  border-radius: 22px;
   border: 1px solid var(--photo-border);
+  border-radius: 8px;
   background: var(--photo-bg);
-  box-shadow: 0 18px 44px var(--shadow);
+  box-shadow: 0 16px 34px var(--shadow);
 }
 
 .intro-photo--bio {
@@ -254,40 +272,41 @@ a {
 
 .slidev-layout table,
 .slidev-page table {
-  border-collapse: separate;
-  border-spacing: 0;
-  border-radius: 18px;
+  border-collapse: collapse;
   overflow: hidden;
-  background: color-mix(in oklab, var(--panel-strong) 72%, transparent);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  background: var(--panel);
+  box-shadow: 0 8px 24px var(--shadow);
 }
 
 .slidev-layout th,
 .slidev-page th {
-  background: color-mix(in oklab, var(--accent) 8%, var(--panel-strong));
-  font-weight: 650;
+  background: color-mix(in oklab, var(--board) 36%, var(--panel-strong));
+  color: var(--text);
+  font-weight: 700;
 }
 
 .slidev-layout th,
 .slidev-layout td,
 .slidev-page th,
 .slidev-page td {
-  border-bottom: 1px solid color-mix(in oklab, var(--panel-border) 72%, transparent);
+  border: 1px solid color-mix(in oklab, var(--panel-border) 76%, transparent);
 }
 
 /* panel-card */
 .panel-card,
 .slidev-layout.center > .my-auto,
 .slidev-page .slidev-layout.center > .my-auto {
-  border-radius: 30px;
-  border: 1px solid color-mix(in oklab, var(--panel-border) 76%, var(--panel-highlight));
+  border: 1px solid var(--panel-border);
+  border-top: 4px solid var(--accent);
+  border-radius: 8px;
   background:
-    linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 90%, transparent), color-mix(in oklab, var(--panel) 94%, transparent)),
-    linear-gradient(135deg, color-mix(in oklab, var(--accent) 4%, transparent), color-mix(in oklab, var(--accent-4) 5%, transparent));
-  box-shadow:
-    0 18px 60px var(--shadow),
-    0 2px 0 rgba(255, 255, 255, 0.18) inset,
-    0 0 0 1px color-mix(in oklab, var(--panel-border) 60%, transparent);
-  backdrop-filter: blur(24px) saturate(145%);
+    linear-gradient(90deg, transparent 0 35px, color-mix(in oklab, var(--board-line) 46%, transparent) 36px 37px, transparent 38px),
+    linear-gradient(0deg, transparent 0 35px, color-mix(in oklab, var(--board-line) 46%, transparent) 36px 37px, transparent 38px),
+    var(--panel);
+  background-size: 37px 37px, 37px 37px, auto;
+  box-shadow: 0 16px 38px var(--shadow);
 }
 
 /* center layout */
@@ -305,6 +324,31 @@ a {
 .slidev-layout.center > .my-auto > :first-child,
 .slidev-page .slidev-layout.center > .my-auto > :first-child {
   margin-top: 0;
+}
+
+.slidev-layout :is(ul, ol) {
+  margin-top: 0.4em;
+}
+
+.slidev-layout li::marker {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.slidev-layout strong {
+  color: color-mix(in oklab, var(--accent) 90%, var(--text));
+}
+
+.mermaid {
+  border-radius: 6px;
+}
+
+.mermaid :is(rect, polygon) {
+  stroke: color-mix(in oklab, var(--panel-border) 88%, var(--text)) !important;
+}
+
+.mermaid .edgePath path {
+  stroke: var(--accent-2) !important;
 }
 
 /* Slide-specific tweaks */
@@ -328,7 +372,6 @@ a {
 .slidev-page.speed .slidev-layout.center > .my-auto {
   padding: 18px 22px;
 }
-
 
 .slidev-layout.params-bias,
 .slidev-page.params-bias {
@@ -376,7 +419,6 @@ a {
   width: 100%;
   height: 300px;
 }
-
 
 .slidev-layout.game-complexity.two-cols .cols > .col:last-child,
 .slidev-page.game-complexity .slidev-layout.two-cols .cols > .col:last-child {
@@ -429,6 +471,7 @@ a {
   white-space: normal;
   overflow-wrap: break-word;
 }
+
 /* halfkp */
 .halfkp-photo {
   width: auto;
@@ -437,14 +480,16 @@ a {
   margin: 0 auto;
   display: block;
   object-fit: contain;
-  border-radius: 14px;
   border: 1px solid var(--photo-border);
+  border-radius: 8px;
   background: var(--photo-bg);
 }
+
 .halfkp-caption {
   font-size: 16px;
   line-height: 1.25;
 }
+
 /* nnue */
 .slidev-layout.nnue.two-cols .cols > .col:first-child,
 .slidev-page.nnue .slidev-layout.two-cols .cols > .col:first-child {
@@ -456,6 +501,7 @@ a {
 .slidev-page.sfnn {
   font-size: 26px;
 }
+
 .sfnn-arch {
   width: 100%;
   max-height: 360px;
@@ -481,6 +527,7 @@ a {
 .slidev-page .slidev-layout.center > .my-auto > :is(h1, h2, h3):first-child + * {
   margin-top: 0;
 }
+
 /* end layout light mode */
 html:not(.dark) .slidev-layout.end,
 html:not(.dark) .slidev-page .slidev-layout.end {
@@ -496,9 +543,9 @@ html:not(.dark) .slidev-page .slidev-layout.end :is(h1, h2, h3, p, div, span) {
 .next-focus {
   display: inline-block;
   padding: 0.08em 0.45em;
-  border-radius: 999px;
-  font-weight: 700;
+  border: 1px solid color-mix(in oklab, var(--accent) 36%, transparent);
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
   color: var(--accent);
-  background: color-mix(in oklab, var(--accent) 12%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 22%, transparent);
+  font-weight: 700;
 }

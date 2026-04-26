@@ -221,7 +221,7 @@ flowchart TD
 layout: section
 ---
 
-# 3. 将棋 AI のアーキテクチャー
+# 3. <NW>将棋 AI の</NW><NW>アーキテクチャー</NW>
 
 ---
 layout: center

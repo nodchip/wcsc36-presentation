@@ -16,18 +16,18 @@ drawings:
 transition: slide-left
 mdc: true
 wakeLock: false
+layout: center
+
 ---
 
-<div class="cover">
-  <div class="eyebrow">第36回世界コンピュータ将棋選手権 1日目 お昼休憩 特別講演</div>
-  <h1>将棋 AI の概要と最新動向</h1>
-  <p class="subtitle">探索・評価関数・定跡から見るコンピュータ将棋</p>
-  <div class="meta">
-    <div>
-      <div>野田 久順</div>
-      <div class="muted">ザイオソフト コンピューター将棋サークル</div>
-      <div class="muted">2026-05-03</div>
-    </div>
+<div class="eyebrow">第36回世界コンピュータ将棋選手権 1日目 お昼休憩 特別講演</div>
+<h1>将棋 AI の概要と最新動向</h1>
+<p class="subtitle">探索・評価関数・定跡から見るコンピュータ将棋</p>
+<div class="meta">
+  <div>
+    <div>野田 久順</div>
+    <div class="muted">ザイオソフト コンピューター将棋サークル</div>
+    <div class="muted">2026-05-03</div>
   </div>
 </div>
 
@@ -38,16 +38,13 @@ layout: section
 # 1. 自己紹介
 
 ---
-layout: image-right-framed
-image: assets/S0650008697-0024-clipped-Hisayori-Noda.jpg
-backgroundSize: contain
-columns: 1.8fr 0.2fr
-frameMaxWidth: 320px
-frameMaxHeight: 280px
+layout: two-cols
+columns: 1.5fr 0.5fr
 ---
 
 ## 野田 久順
 
+:: left ::
 ザイオソフト <NW>コンピューター</NW><NW>将棋</NW><NW>サークル</NW><NW>所属</NW>
 
 ### 主な実績
@@ -55,15 +52,19 @@ frameMaxHeight: 280px
 - 2021年 <NW>CSA</NW><NW>貢献賞</NW> <NW>受賞</NW>
 - 2024年 <NW>第34回</NW><NW>世界</NW><NW>コンピュータ</NW><NW>将棋</NW><NW>選手権</NW> <NW>優勝</NW>
 
+::right::
+
+![](./public/assets/S0650008697-0024-clipped-Hisayori-Noda.jpg)
+
 ---
 layout: center
 ---
 
 ## 今日持ち帰ってほしいこと
 
-1. <NW>将棋 AI の</NW><NW>全体像</NW><NW>（探索・</NW><NW>評価・</NW><NW>NNUE・</NW><NW>SFNN）</NW>
-2. <NW>CPU エンジン</NW><NW>と</NW><NW>GPU エンジン</NW><NW>の</NW><NW>違い</NW>
-3. <NW>定跡</NW><NW>と</NW><NW>最新動向</NW>
+1. <NW>将棋 AI の</NW><NW>全体像</NW><NW>（探索・評価）</NW>
+2. <NW>CPU エンジン</NW><NW>と</NW><NW>GPU エンジン</NW>
+3. <NW>最新動向</NW>
 
 ---
 layout: two-cols
@@ -247,8 +248,8 @@ layout: section
 
 ---
 layout: two-cols
-class: nnue
-columns: 1fr 1fr
+class: game-tree
+columns: 1.4fr 0.6fr
 ---
 
 ## ミニマックス法
@@ -259,57 +260,42 @@ columns: 1fr 1fr
 - <NW>後手は</NW><NW>評価値の</NW><NW>最小化を</NW><NW>目指す手を</NW><NW>選択</NW>
   - <NW>後手:</NW> <NW>ミニマムプレイヤー</NW>
 
+::right::
+
 ```mermaid
+%%{init: {'flowchart': {'useMaxWidth': true, 'htmlLabels': false}}}%%
 flowchart TD
-  A[MAX] --> B[MIN]
-  A --> C[MIN]
-  B --> D[+80]
-  B --> E[-20]
-  C --> F[+30]
-  C --> G[+10]
+  A[3] --> B1[3]
+  A --> B2[1]
+  B1 --> C1[7]
+  B1 --> C2[3]
+  B1 --> C3[5]
+  B2 --> C4[2]
+  B2 --> C5[4]
+  B2 --> C6[1]
+
+  C2 -.-> B1
+  C6 -.-> B2
+  B1 -.-> A
+
+  class A,B1,B2,C1,C2,C3,C4,C5,C6 sq;
+  classDef sq font-size:64px,font-weight:700;
+  linkStyle default stroke-width:4px;
 ```
 
-::right::
-### 図の意味
-- <NW>先手:</NW> <NW>大きい</NW><NW>評価値を</NW><NW>選ぶ</NW>
-- <NW>後手:</NW> <NW>小さい</NW><NW>評価値を</NW><NW>選ぶ</NW>
-- <NW>終端接点:</NW> <NW>評価を</NW><NW>行った局面</NW>
+<div style="margin-top: 10px; font-size: 18px; line-height: 1.25">
+- <NW>□:</NW> <NW>局面</NW><br>
+- <NW>□の中の数字:</NW> <NW>評価値</NW><br>
+- <NW>実線:</NW> <NW>差し手（遷移）</NW><br>
+- <NW>破線:</NW> <NW>評価値の伝搬</NW><br>
+- <NW>左側の</NW><NW>状態に</NW><NW>遷移する</NW><NW>手が</NW><NW>最善</NW><br>
+- <NW>この時の</NW><NW>評価値は</NW><NW>3</NW>
+</div>
 
 ---
 layout: two-cols
-columns: 1fr 1fr
----
-
-## アルファ・ベータ法
-
-::left::
-- <NW>ミニマックス法と</NW><NW>同じ計算結果</NW>
-- <NW>不要な探索の</NW><NW>枝刈り</NW>
-- <NW>枝刈りの例</NW>
-  - <NW>現在の</NW><NW>先手の</NW><NW>評価値は</NW> <NW>3</NW>
-  - <NW>先手の</NW><NW>評価値の</NW><NW>更新には</NW> <NW>4</NW> <NW>以上の</NW><NW>評価値が</NW><NW>必要</NW>
-
-```mermaid
-flowchart TD
-  A[MAX] --> B[MIN]
-  A --> C[MIN]
-  B --> D[+80]
-  B --> E[-20]
-  C --> F[+30]
-  C -. cut .-> G[読まない]
-```
-
-::right::
-### 枝刈りの例
-- <NW>後手は</NW><NW>低い</NW><NW>評価値を</NW><NW>選択</NW>
-- <NW>調査した</NW><NW>終端接点の</NW><NW>評価値は</NW> <NW>2</NW>
-- <NW>後手の</NW><NW>評価値は</NW> <NW>2</NW> <NW>以下</NW>
-- <NW>先手の</NW><NW>評価値は</NW><NW>更新されない</NW>
-- <NW>この枝の</NW><NW>探索打ち切りが</NW><NW>可能</NW>
-
----
-layout: two-cols
-columns: 1fr 1fr
+class: nnue
+columns: 1.3fr 0.7r
 ---
 
 ## NNUE 評価関数
@@ -326,57 +312,18 @@ columns: 1fr 1fr
 - <NW>整数 SIMD 演算による</NW><NW>高速化</NW>
 
 ::right::
+
 ```mermaid
+%%{init: {'flowchart': {'useMaxWidth': true, 'rankSpacing': 20, 'nodeSpacing': 20}}}%%
 flowchart TD
-  A[局面特徴] --> B[差分更新]
-  B --> C[Accumulator]
-  C --> D[全結合層]
-  D --> E[評価値]
+  I[入力特徴量] --> A1[隠れ層1]
+  A1 --> A2[隠れ層2]
+  A2 --> A3[隠れ層3]
+  A3 --> O[評価値]
+
+  classDef default font-weight:700;
+  linkStyle default stroke-width:2px;
 ```
-
----
-layout: two-cols
-columns: 1fr 1fr
----
-
-## 全結合ニューラルネットワーク
-
-::left::
-<NW>隠れ層</NW> <NW>3</NW> <NW>層程度の</NW><NW>浅い</NW><NW>ディープラーニング</NW>
-
-```mermaid
-flowchart LR
-  I[入力層<br>特徴量] --> H1[隠れ層]
-  H1 --> H2[隠れ層]
-  H2 --> H3[隠れ層]
-  H3 --> O[出力層<br>評価値]
-```
-
-::right::
-### NNUE で使われる構成
-- <NW>入力層:</NW> <NW>特徴量</NW>
-- <NW>隠れ層:</NW> <NW>全結合層</NW>
-- <NW>出力層:</NW> <NW>評価値</NW>
-
----
-layout: image-right-framed
-image: assets/HalfKP.png
-backgroundSize: contain
-columns: 1.35fr 0.65fr
-frameMaxWidth: 440px
-frameMaxHeight: 330px
----
-
-## HalfKP 特徴量
-
-- <NW>将棋盤面を</NW><NW>表す</NW><NW>数値ベクトル</NW>
-- <NW>玉の位置</NW><NW>と</NW><NW>玉以外の</NW> <NW>1</NW> <NW>駒の</NW><NW>位置と種類の</NW><NW>組み合わせを</NW><NW>One-hot encoding</NW><NW>し、</NW><NW>加算</NW>
-- <NW>81 × 1548 =</NW> <NW>125,388</NW> <NW>次元の</NW><NW>ベクトル</NW>
-
-<div class="halfkp-caption">
-<NW>玉と</NW><NW>玉以外の</NW><NW>駒 1 つの</NW><NW>組み合わせの</NW><NW>例</NW><br>
-<NW>盤面上に</NW><NW>存在する</NW><NW>すべての</NW><NW>組み合わせを</NW><NW>One-hot encoding</NW><NW>したものを</NW><NW>足し合わせる</NW>
-</div>
 
 ---
 layout: section
@@ -389,24 +336,37 @@ layout: two-cols
 columns: 1fr 1fr
 ---
 
-## GPU エンジンの探索アルゴリズム
+## PUCT
 
 ::left::
-<NW>PUCT</NW>
+- <NW>以下の式が</NW><NW>最大となる手を</NW><NW>選択</NW>
+  <NW>Q(s,a) + c P(s,a) sqrt(N(s)) / (1 + N(s,a))</NW>
 
-- <NW>モンテカルロ木探索に</NW><NW>基づく探索</NW>
-- <NW>評価関数が</NW><NW>出力する</NW><NW>勝率と</NW><NW>着手の確率を</NW><NW>使う</NW>
-- <NW>勝率</NW><NW>・</NW><NW>着手の確率</NW><NW>・</NW><NW>探索回数の少なさ</NW><NW>を</NW><NW>組み合わせる</NW>
+  - <NW>s:</NW> <NW>局面</NW>
+  - <NW>a:</NW> <NW>着手</NW>
+  - <NW>Q(s,a):</NW> <NW>局面 s における</NW><NW>着手 a の</NW><NW>勝率</NW>
+  - <NW>P(s,a):</NW> <NW>着手の確率</NW>
+  - <NW>N(s,a):</NW> <NW>s における a の</NW><NW>訪問回数</NW>
 
 ::right::
 ```mermaid
+%%{init: {'flowchart': {'useMaxWidth': true, 'htmlLabels': false}}}%%
 flowchart TD
-  A[局面] --> B[NN 推論]
-  B --> C[方策]
-  B --> D[価値]
-  C --> E[探索の優先度]
-  D --> E
-  E --> F[訪問回数を増やす]
+  A[0.5] --> B1[0.6]
+  A --> B2[0.5]
+  A --> B3[0.3]
+  B1 --> C1[0.1]
+  B1 --> C2[0.4]
+  B2 --> C3[0.2]
+  B2 --> C4[0.4]
+  B2 --> C5[0.5]
+  C2 --> D1[0.3]
+  C2 --> D2[0.6]
+  D2 --> E1[0.4]
+
+  class A,B1,B2,B3,C1,C2,C3,C4,C5,D1,D2,E1 sq;
+  classDef sq font-size:64px,font-weight:700;
+  linkStyle default stroke-width:4px;
 ```
 
 ---
@@ -414,44 +374,17 @@ layout: two-cols
 columns: 1fr 1fr
 ---
 
-## PUCT
+## ディープラーニング評価関数
 
 ::left::
-- <NW>以下の式が</NW><NW>最大となる手を</NW><NW>選択</NW>
-
-`Q(s,a) + c P(s,a) sqrt(N(s)) / (1 + N(s,a))`
-
-- <NW>s:</NW> <NW>局面</NW>
-- <NW>a:</NW> <NW>着手</NW>
-- <NW>Q(s,a):</NW> <NW>局面 s における</NW><NW>着手 a の</NW><NW>勝率</NW>
-- <NW>P(s,a):</NW> <NW>着手の確率</NW>
-- <NW>N(s,a):</NW> <NW>s における a の</NW><NW>訪問回数</NW>
-
-::right::
-### 評価関数が出力するもの
-- <NW>Q:</NW> <NW>勝率</NW>
-- <NW>P:</NW> <NW>着手の確率</NW>
-
-### 探索で足されるもの
-- <NW>探索回数の</NW><NW>少なさ</NW>
-
----
-layout: two-cols
-columns: 1fr 1fr
----
-
-## GPU エンジンの評価関数
-
-::left::
-- <NW>畳み込みニューラルネットワーク</NW><NW>（CNN）を</NW><NW>使用</NW>
-- <NW>画像認識などで</NW><NW>用いられる</NW><NW>一般的手法の</NW><NW>応用</NW>
+- <NW>CNN を</NW><NW>使用</NW>
 - <NW>局面を</NW><NW>複数の</NW><NW>画像に</NW><NW>変換して</NW><NW>入力</NW>
 - <NW>中間層は</NW> <NW>ResNet</NW>
 - <NW>出力層は</NW><NW>着手確率と</NW><NW>勝率を</NW><NW>出力</NW>
 
 ::right::
 ```mermaid
-flowchart LR
+flowchart TD
   A[入力層] --> B[中間層]
   B --> C[方策ネットワーク]
   B --> D[価値ネットワーク]
@@ -460,97 +393,33 @@ flowchart LR
 ```
 
 ---
-layout: two-cols
-columns: 1fr 1fr
+layout: section
 ---
 
-## GPU エンジンのネットワーク例
-
-::left::
-### 入力層
-- <NW>局面を</NW><NW>画像に</NW><NW>変換して</NW><NW>入力</NW>
-- <NW>駒の種類ごとに</NW> <NW>2</NW> <NW>値画像を</NW><NW>作成</NW>
-- <NW>駒があるマス:</NW> <NW>白（1）</NW>
-- <NW>駒がないマス:</NW> <NW>黒（0）</NW>
-- <NW>持ち駒の種類ごとに</NW><NW>最大枚数分の</NW><NW>画像を</NW><NW>用意</NW>
-- <NW>合計</NW> <NW>104</NW> <NW>枚の画像として</NW><NW>入力</NW>
-
-### 中間層
-- <NW>ResNet</NW><NW>（Residual Network）</NW>
-- <NW>ネットワークの</NW><NW>深層化に</NW><NW>強い構造</NW>
-- <NW>層をスキップする</NW><NW>ショートカット接続の</NW><NW>導入</NW>
-
-::right::
-### 方策ネットワーク
-- <NW>着手確率を</NW><NW>出力</NW>
-- <NW>指し手の表現は</NW><NW>移動先 × 移動方向の</NW><NW>組み合わせ</NW>
-- <NW>出力層は</NW><NW>フィルターサイズ</NW> <NW>1×1</NW><NW>、</NW><NW>フィルター数</NW> <NW>27</NW> <NW>の畳み込み層</NW>
-
-### 価値ネットワーク
-- <NW>勝率を</NW><NW>出力</NW>
-- <NW>出力層は</NW><NW>1×1 フィルター・27 チャネルの畳み込み層</NW>
-- <NW>ユニット数</NW> <NW>256</NW> <NW>の全結合層</NW>
-- <NW>ユニット数</NW> <NW>1</NW> <NW>の全結合層</NW>
+# 定跡データベース
 
 ---
 layout: two-cols
 columns: 1fr 1fr
 ---
 
-## 定跡
+## 定跡データベース
 
 ::left::
 - <NW>局面と</NW><NW>その局面における</NW><NW>指し手の</NW><NW>リスト</NW>
-- <NW>定跡の役割</NW>
-  - <NW>序盤の</NW><NW>思考時間を</NW><NW>節約</NW>
-  - <NW>評価関数の</NW><NW>精度の悪さを</NW><NW>補助</NW>
+- <NW>役割</NW>
+  - <NW>序盤の</NW><NW>思考時間の</NW><NW>節約</NW>
+  - <NW>評価関数の</NW><NW>精度の悪さの</NW><NW>補完</NW>
   - <NW>有利な局面への</NW><NW>誘導</NW>
 
 ::right::
 
 ### 例
 
-- <NW>☗２六歩</NW> <NW>96%</NW>
-- <NW>☗７六歩</NW> <NW>2%</NW>
-- <NW>...</NW>
-
----
-layout: two-cols
-columns: 1fr 1fr
----
-
-## 定跡 2010 年代
-
-::left::
-### 2010 年代前半
-- <NW>手動入力による</NW><NW>構築</NW>
-- <NW>プロ棋士の</NW><NW>棋譜からの</NW><NW>生成</NW>
-- <NW>floodgate の</NW><NW>棋譜からの</NW><NW>自動抽出</NW>
-
-::right::
-### 2010 年代後半
-- <NW>自己対局による</NW><NW>定跡生成</NW>
-- <NW>勝率に基づく</NW><NW>選別</NW>
-- <NW>評価値に基づく</NW><NW>選別</NW>
-- <NW>定跡データベース末端局面の</NW><NW>評価値による</NW><NW>ミニマックス処理</NW>
-
----
-layout: two-cols
-columns: 1fr 1fr
----
-
-## 定跡 2020 年代
-
-::left::
-### 2020 年代前半
-- <NW>自己対局結果による</NW><NW>定跡の自動修正</NW>
-- <NW>不利な手順の</NW><NW>削除・置換</NW>
-- <NW>有利な手順の</NW><NW>強化・拡張</NW>
-- <NW>代表例:</NW> <NW>角換わり水匠定跡</NW>
-
-::right::
-### 2020 年代後半
-- <NW>？？？</NW>
+- <NW>初期局面</NW>
+  - <NW>☗２六歩</NW> <NW>96%</NW>
+  - <NW>☗７六歩</NW> <NW>2%</NW>
+  - <NW>...</NW>
 
 ---
 layout: section
@@ -559,16 +428,14 @@ layout: section
 # 4. 最新動向
 
 ---
-layout: image-right-framed
-image: assets/SFNNv9_architecture_detailed_v2.Bw_vbb_h.svg
+layout: two-cols
 class: sfnn
-backgroundSize: contain
-columns: 1fr 1fr
-frameMaxWidth: 520px
-frameMaxHeight: 360px
+columns: 1.3fr 0.7fr
 ---
 
 ## SFNN
+
+::left::
 
 - <NW>Stockfish</NW> <NW>チームによる</NW><NW>改良版</NW>
   - <NW>Stockfish:</NW> <NW>世界最強の</NW><NW>チェス</NW> <NW>AI</NW>
@@ -579,49 +446,25 @@ frameMaxHeight: 360px
 - <NW>Element-wise</NW> <NW>multiply</NW>
 - <NW>SqrClippedReLU</NW>
 
+::right::
+
+![](./public/assets/SFNNv9_architecture_detailed_v2.Bw_vbb_h.svg){.sfnn-arch}
+
 [NNUE | Stockfish Docs](https://official-stockfish.github.io/docs/nnue-pytorch-wiki/docs/nnue.html){.sfnn-link}
 
 ---
-layout: two-cols
-columns: 1fr 1fr
+layout: center
 ---
 
 ## 新ペタショック定跡
 
-::left::
-やねうら王チーム周辺で公開・配布されている、大規模な将棋定跡。
-
-### 近年の特徴
-- 数百万局面規模
-- 1局面を大きなノード数で探索
-- 定跡ツリーを minimax 的に整理
-
-::right::
-### 何が新しいか
-- 次に掘る frontier nodes を選ぶ
-- 自分番は bestmove を選ぶ前提にする
-- 相手番は評価差の範囲で複数手を許す
-
-組み合わせ爆発を抑えながら、実戦で出やすい深い変化を掘る。
-
----
-layout: two-cols
-columns: 1fr 1fr
----
-
-## 最新動向を一言で
-
-::left::
-### 評価関数
-- CPU: NNUE / SFNN 系の大型化
-- GPU: 方策・価値ネットワークの高精度化
-- 速度と精度の両立が中心課題
-
-::right::
-### 探索と定跡
-- 探索は「全部読む」から「読むべき所を読む」へ
-- 定跡は人間の知識から大規模探索結果へ
-- 大会では定跡運用も重要な戦略
+- <NW>やねうらお師匠が</NW><NW>公開・配布されている、</NW><NW>大規模将棋定跡</NW>
+- 1,300 万局面超収録
+- 作り方
+  - 定跡の末端局面を選択
+  - 将棋 AI に思考させる
+  - 平手局面まで結果を伝搬
+  - 以下繰り返し
 
 ---
 layout: section
@@ -635,24 +478,13 @@ layout: center
 
 ## まとめ
 
-1. <NW>将棋 AI</NW> は <NW>探索</NW> と <NW>評価</NW> を組み合わせて手を選ぶ
-2. <NW>CPU エンジン</NW> はアルファ・ベータ探索と NNUE が中心
-3. <NW>GPU エンジン</NW> は PUCT と方策・価値ネットワークが中心
-4. 最新動向は <NW>SFNN</NW> と <NW>大規模定跡</NW> が見どころ
-
----
-layout: center
----
-
-## 参考
-
-- コンピュータ将棋協会: 第36回世界コンピュータ将棋選手権 日程
-- やねうら王公式: 新ペタショック定跡の定跡生成アルゴリズムについて
-- やねうら王 GitHub / Wiki: エンジン種別と NNUE 系・DL 系の説明
-- Stockfish NNUE PyTorch docs: NNUE と SFNN 系アーキテクチャー
+1. <NW>将棋 AI は</NW><NW>探索と</NW><NW>評価を</NW><NW>組み合わせて</NW><NW>手を</NW><NW>選ぶ</NW>
+2. <NW>CPU エンジンは</NW><NW>ミニマックス探索と</NW> <NW>NNUE を</NW><NW>使う</NW>
+3. <NW>GPU エンジンは</NW> <NW>PUCT と</NW><NW>ディープラーニング評価関数を</NW><NW>使う</NW>
+4. <NW>最新動向は</NW> <NW>SFNN と</NW><NW>大規模定跡が</NW><NW>見どころ</NW>
 
 ---
 layout: end
 ---
 
-# ご清聴ありがとうございました
+# ありがとうございました

@@ -150,7 +150,7 @@ pre,
   width: 72px;
   height: 88px;
   background: linear-gradient(180deg, #f1cf90, #d59b4b);
-  clip-path: polygon(50% 0, 94% 20%, 82% 100%, 18% 100%, 6% 20%);
+  clip-path: polygon(50% 0, 84% 22%, 96% 100%, 4% 100%, 16% 22%);
   box-shadow: inset 0 0 0 2px rgba(88, 56, 24, 0.42);
   opacity: 0.82;
 }

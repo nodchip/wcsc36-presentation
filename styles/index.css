@@ -65,6 +65,10 @@ body,
   pointer-events: none;
 }
 
+.slidev-page:has(.cover)::before {
+  content: none;
+}
+
 .slidev-page::after {
   content: "WCSC36";
   position: absolute;
@@ -128,14 +132,14 @@ pre,
   gap: 18px;
   overflow: hidden;
   padding: 48px 54px;
-  border: 2px solid var(--text);
-  border-radius: 8px;
+  border: 0;
+  border-radius: 0;
   background:
     linear-gradient(90deg, transparent 0 52px, color-mix(in oklab, var(--board-line) 42%, transparent) 53px 54px, transparent 55px),
     linear-gradient(0deg, transparent 0 52px, color-mix(in oklab, var(--board-line) 42%, transparent) 53px 54px, transparent 55px),
     linear-gradient(180deg, color-mix(in oklab, var(--panel-strong) 92%, var(--board)), var(--panel));
   background-size: 54px 54px, 54px 54px, auto;
-  box-shadow: 0 22px 58px var(--shadow), inset 0 0 0 8px color-mix(in oklab, var(--panel-border) 26%, transparent);
+  box-shadow: none;
 }
 
 .cover::before {

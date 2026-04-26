@@ -69,6 +69,10 @@ body,
   content: none;
 }
 
+.slidev-page:not(:has(.cover))::before {
+  content: none;
+}
+
 .slidev-page::after {
   content: "WCSC36";
   position: absolute;
@@ -79,6 +83,10 @@ body,
   font-size: 13px;
   letter-spacing: 0.08em;
   pointer-events: none;
+}
+
+.slidev-page:not(:has(.cover))::after {
+  content: none;
 }
 
 .slidev-layout {

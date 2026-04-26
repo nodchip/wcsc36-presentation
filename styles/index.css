@@ -146,7 +146,7 @@ pre,
   padding: 48px 54px;
   border: 2px solid var(--text);
   border-radius: 8px;
-  background: color-mix(in oklab, var(--panel-strong) 82%, transparent);
+  background: transparent;
   box-shadow: 0 12px 24px var(--shadow);
 }
 

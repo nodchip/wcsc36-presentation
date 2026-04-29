@@ -295,7 +295,7 @@ flowchart TD
 ---
 layout: two-cols
 class: nnue
-columns: 1.3fr 0.7r
+columns: 1.3fr 0.7fr
 ---
 
 ## NNUE 評価関数

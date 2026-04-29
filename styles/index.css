@@ -494,9 +494,16 @@ a {
 }
 
 /* nnue */
+.slidev-layout.nnue.two-cols,
+.slidev-page.nnue .slidev-layout.two-cols {
+  --two-cols-padding: 22px 28px;
+  --two-cols-top-padding: 0 0 10px;
+}
+
 .slidev-layout.nnue.two-cols .cols > .col:first-child,
 .slidev-page.nnue .slidev-layout.two-cols .cols > .col:first-child {
-  font-size: 26px;
+  font-size: 24px;
+  line-height: 1.35;
 }
 
 /* sfnn */
